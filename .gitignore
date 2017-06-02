@@ -1,0 +1,5 @@
+# Ignore all the vendored code (including the application itself). Pulling that in is a job for builds, and thus we do
+# not want to store it in version control.
+!app/composer.json
+!app/composer.lock
+app/*
