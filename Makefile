@@ -28,6 +28,7 @@ TIMESTAMP := $(shell date "+%s")
 help: ## Show this menu
 	@echo -e $(ANSI_TITLE)m2onk8s-hackery-littleman-co$(ANSI_OFF)$(ANSI_SUBTITLE)" - Fucking around getting Magento2 up on Kubernetes "$(ANSI_OFF)
 	@echo -e "\nUsage: $ make \$${COMMAND} \n"
+	@echo -e "Requirements: php, composer, docker, git\n"
 	@echo -e "Variables use the \$${VARIABLE} syntax, and are supplied as environment variables before the command. For example, \n"
 	@echo -e "  \$$ VARIABLE="foo" make help\n"
 	@echo -e $(ANSI_TITLE)Commands:$(ANSI_OFF)
@@ -37,3 +38,16 @@ container: ## ${NAME} | Builds a container. The only container is webserver, so 
 	docker build --tag gcr.io/littlemanco/m2onk8s:$(APP_VERSION) \
 	    --file build/containers/${NAME}/Dockerfile \
 	    .
+
+app-dependencies: ## Installs the application dependencies (so, the application itself)
+	cd app && \
+	    composer install \
+		--ignore-platform-reqs \
+		--no-dev
+
+app-di: ## Builds the Magento DI configuration
+	php app/bin/magento setup:di:compile
+
+clean: ## Deletes all application resources
+	rm -rf app/* && \
+	    git checkout HEAD app
