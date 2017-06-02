@@ -45,9 +45,13 @@ app-dependencies: ## Installs the application dependencies (so, the application 
 		--ignore-platform-reqs \
 		--no-dev
 
-app-di: ## Builds the Magento DI configuration
-	php app/bin/magento setup:di:compile
+app-enable-modules: ## Something I have to do for some reason
+	cd app && \
+	    php bin/magento module:enable -all
 
-clean: ## Deletes all application resources
-	rm -rf app/* && \
-	    git checkout HEAD app
+app-di: ## Builds the Magento DI configuration
+	docker run -v $$(pwd):/tmp/ quay.io/littlemanco/apache-php:7.0.19-1_3 \
+	    php /tmp/app/bin/magento setup:di:compile
+
+fix-perms: ## Chanages the permissions to they're owned by the www-data user
+	sudo chown -R 33:33 app
