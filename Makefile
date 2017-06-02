@@ -34,7 +34,7 @@ help: ## Show this menu
 	@echo -e $(ANSI_TITLE)Commands:$(ANSI_OFF)
 	@grep -E '^[a-zA-Z_-%]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "    \033[32m%-30s\033[0m %s\n", $$1, $$2}'
 
-container: ## ${NAME} | Builds a container. The only container is webserver, so you probably want "$ NAME=magento make container"
+container: fix-perms ## ${NAME} | Builds a container. The only container is webserver, so you probably want "$ NAME=magento make container"
 	docker build --tag gcr.io/littlemanco/m2onk8s:$(APP_VERSION) \
 	    --file build/containers/${NAME}/Dockerfile \
 	    .
@@ -53,5 +53,12 @@ app-di: ## Builds the Magento DI configuration
 	docker run -v $$(pwd):/tmp/ quay.io/littlemanco/apache-php:7.0.19-1_3 \
 	    php /tmp/app/bin/magento setup:di:compile
 
-fix-perms: ## Chanages the permissions to they're owned by the www-data user
-	sudo chown -R 33:33 app
+app-static: ## Builds the themes
+	docker run -v $$(pwd):/tmp/ quay.io/littlemanco/apache-php:7.0.19-1_3 \
+	    php /tmp/app/bin/magento setup:static-content:deploy
+
+fix-perms: ## ${TYPE} Chanages the permissions to they're owned by the appropriate user
+	[ "${TYPE}" == "prod" ] && \
+	    export ID="33" ||  \
+	    export ID="$$(id -u)"; \
+	sudo chown -R $${ID}:$${ID} app
