@@ -1,0 +1,58 @@
+{
+  "name": "littlemanco/m2onk8s",
+  "description": "An attempt to get Magento 2 up on Kubernetes",
+  "type": "project",
+  "homepage": "https://github.com/andrewhowdencom/m2onk8s/",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Andrew Howden",
+      "email": "hello@andrewhowden.com",
+      "homepage": "https://www.andrewhowden.com/",
+      "role": "Voodoo Artisan"
+    }
+  ],
+  "support": {
+    "email": "hello@andrewhowden.com",
+    "issues": "https://github.com/andrewhowdencom/m2onk8s//issues",
+    "wiki": "https://github.com/andrewhowdencom/m2onk8s//wiki",
+    "source": "https://github.com/andrewhowdencom/m2onk8s/"
+  },
+  "require": {
+    "php": ">=7.0",
+    "magento/project-community-edition": "2.1.*"
+  },
+  "require-dev": {},
+  "suggest": {},
+  "conflict": {},
+  "autoload": {
+    "psr-4": {
+      "littlemanco\\": "src/"
+    }
+  },
+  "bin": [],
+  "archive": {
+    "exclude": [
+      "test",
+      "hack",
+      "hooks",
+      ".arclint"
+    ]
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://repo.magento.com/"
+    }
+  ],
+  "config": {
+    "bin-dir": "bin",
+    "store-auths": false,
+    "optimize-autoloader": true,
+    "sort-packages": true,
+    "apcu-autoloader": true,
+    "notify-on-install": false
+  },
+  "minimum-stability": "dev"
+}
+
