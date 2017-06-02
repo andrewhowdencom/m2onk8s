@@ -34,10 +34,13 @@ help: ## Show this menu
 	@echo -e $(ANSI_TITLE)Commands:$(ANSI_OFF)
 	@grep -E '^[a-zA-Z_-%]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "    \033[32m%-30s\033[0m %s\n", $$1, $$2}'
 
-container: fix-perms ## ${NAME} | Builds a container. The only container is webserver, so you probably want "$ NAME=magento make container"
+build-container: ## ${NAME} | Builds a container. The only container is webserver, so you probably want "$  NAME=magento make build-container"
 	docker build --tag gcr.io/littlemanco/m2onk8s:$(APP_VERSION) \
 	    --file build/containers/${NAME}/Dockerfile \
 	    .
+
+push-container: ## Pushes the container to prod.
+	gcloud docker -- push gcr.io/littlemanco/m2onk8s:$(APP_VERSION}
 
 app-dependencies: ## Installs the application dependencies (so, the application itself)
 	cd app && \
@@ -62,3 +65,6 @@ fix-perms: ## ${TYPE} Chanages the permissions to they're owned by the appropria
 	    export ID="33" ||  \
 	    export ID="$$(id -u)"; \
 	sudo chown -R $${ID}:$${ID} app
+
+clean: ## Cleans all the caches and things from the repo
+	- rm -rf app/var/cache/*
