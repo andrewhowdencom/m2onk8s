@@ -33,7 +33,7 @@ help: ## Show this menu
 	@echo -e $(ANSI_TITLE)Commands:$(ANSI_OFF)
 	@grep -E '^[a-zA-Z_-%]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "    \033[32m%-30s\033[0m %s\n", $$1, $$2}'
 
-container: ## ${NAME} | Builds a container. The only container is webserver, so you probably want "$ NAME=webserver make container"
+container: ## ${NAME} | Builds a container. The only container is webserver, so you probably want "$ NAME=magento make container"
 	docker build --tag gcr.io/littlemanco/m2onk8s:$(APP_VERSION) \
-	    --file build/containers/${NAME} \
+	    --file build/containers/${NAME}/Dockerfile \
 	    .
