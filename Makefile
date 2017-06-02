@@ -40,7 +40,7 @@ build-container: ## ${NAME} | Builds a container. The only container is webserve
 	    .
 
 push-container: ## Pushes the container to prod.
-	gcloud docker -- push gcr.io/littlemanco/m2onk8s:$(APP_VERSION}
+	gcloud docker -- push gcr.io/littlemanco/m2onk8s:$(APP_VERSION)
 
 app-dependencies: ## Installs the application dependencies (so, the application itself)
 	cd app && \
