@@ -11,6 +11,7 @@ services:
   - "docker"
 
 before_install:
+  - "sudo build/ci/install-git-crypt.sh"
   - 'printf "%s" ${CI_BASE64_GPG_PRIVATE_KEY} | base64 -d | gpg --import'
   - 'git-crypt unlock'
   - "make compose-up"
