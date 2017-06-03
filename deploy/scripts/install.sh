@@ -5,8 +5,10 @@
 #
 set -e
 
+APP_ROOT="/var/www"
+
 su --shell=/bin/bash www-data --command=' \
-  php /var/www/html/bin/magento setup:install \
+  php '"${APP_ROOT}/bin/magento"' setup:install \
     --db-host="db" \
     --db-name="magento" \
     --db-user="magento" \
@@ -23,3 +25,5 @@ su --shell=/bin/bash www-data --command=' \
   chmod "u=rx,g=,o=" /var/www/html/app/etc/'
 
 # Todo: Cat the .env file, and turn it into a secret.
+
+cat "${APP_ROOT}/app/env.php"
