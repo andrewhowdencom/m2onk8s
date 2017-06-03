@@ -44,6 +44,7 @@ compose-up: ## Brings up the docker compose environment
 
 container-build: fix-perms ## ${NAME} | Builds a container. The only container is webserver, so you probably want "$  NAME=magento make build-container"
 	docker build --tag quay.io/littlemanco/${NAME}:$(APP_VERSION) \
+	    --squash \
 	    --file build/containers/${NAME}/Dockerfile \
 	    .
 container-push: ## Pushes the container to prod.
