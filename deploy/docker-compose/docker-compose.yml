@@ -12,8 +12,6 @@ services:
       MYSQL_USER: "magento"
       MYSQL_PASSWORD: "thisisthemagentopassword"
     restart: "always"
-    ports:
-      - "127.0.0.1:3306:3306/tcp"
   magento:
     image: "quay.io/littlemanco/apache-php:7.0.19-1_3"
     volumes:
