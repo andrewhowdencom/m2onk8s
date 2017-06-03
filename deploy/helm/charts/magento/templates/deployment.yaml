@@ -61,10 +61,6 @@ spec:
           #       key: __KEY_USED_IN_SECRET_NAME__
           #
           image: {{ .Values.pod.magento.image | quote }}
-          # args:
-          #   - "command"
-          #   - "line"
-          #   - "arguments"
           resources:
 {{ toYaml .Values.resources | indent 12 }}
           ports:
