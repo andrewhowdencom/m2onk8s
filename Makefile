@@ -36,7 +36,7 @@ help: ## Show this menu
 
 compose-up: ## Brings up the docker compose environment
 	cd deploy/docker-compose && \
-	    docker-compose up
+	    docker-compose up -d
 
 container-build: ## ${NAME} | Builds a container. The only container is webserver, so you probably want "$  NAME=magento make build-container"
 	docker build --tag quay.io/littlemanco/${NAME}:$(APP_VERSION) \
