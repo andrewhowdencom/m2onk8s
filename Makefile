@@ -60,6 +60,13 @@ app-static: ## Builds the themes
 	docker run -v $$(pwd):/tmp/ quay.io/littlemanco/apache-php:7.0.19-1_3 \
 	    php /tmp/app/bin/magento setup:static-content:deploy
 
+unfuck-docker: ## Makes the required filesystem / permissions changes to allow executing in docker-compose
+	sudo chown -R 33:33 \
+	    app/var \
+	    app/app/etc \
+	    app/pub/media \
+	    app/pub/static
+
 fix-perms: ## ${TYPE} Chanages the permissions to they're owned by the appropriate user
 	[ "${TYPE}" == "prod" ] && \
 	    export ID="33" ||  \

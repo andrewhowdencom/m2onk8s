@@ -1,0 +1,29 @@
+---
+version: '2'
+
+services:
+  db:
+    image: "mysql:5.7.18"
+    environment:
+      # It is not a good idea to share passwords. Do not use the following passwords in either a staging, or production
+      # system. They're here for docker-compose to assist in build processes or development in a throw-away fashion.
+      MYSQL_ROOT_PASSWORD: "thisistherootpassword"
+      MYSQL_DATABASE: "magento"
+      MYSQL_USER: "magento"
+      MYSQL_PASSWORD: "thisisthemagentopassword"
+    restart: "always"
+    ports:
+      - "127.0.0.1:3306:3306/tcp"
+  magento:
+    image: "quay.io/littlemanco/apache-php:7.0.19-1_3"
+    volumes:
+      - "../../app/:/var/www/html"
+    depends_on:
+      - "db"
+    ports:
+      - "127.0.0.1:80:80/tcp"
+    restart: "always"
+    environment:
+      SERVER_NAME: "m2onk8s.hackery.littleman.local"
+      SERVER_ADMIN: "devnull@m2onk8s.hackery.littleman.local"
+      DOCUMENT_ROOT: "/var/www/html"
