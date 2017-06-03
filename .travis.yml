@@ -16,6 +16,7 @@ services:
   - "docker"
 
 before_install:
+  - 'docker login --username "${CI_DOCKER_USERNAME}" --password="${CI_DOCKER_PASSWORD}" quay.io'
   - "mkdir -p ${COMPOSER_HOME}"
   - "sudo build/ci/install-git-crypt.sh"
   - 'printf "%s" ${CI_BASE64_GPG_PRIVATE_KEY} | base64 -d | gpg --import'
