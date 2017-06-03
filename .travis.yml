@@ -25,6 +25,9 @@ before_install:
 install:
   - "make app-dependencies app-install"
 
+script:
+  - "true"
+
 deploy:
   - provider: "script"
     script: "NAME=magento make container-build container-push"
