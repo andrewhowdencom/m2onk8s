@@ -50,20 +50,21 @@ app-dependencies: ## Installs the application dependencies (so, the application 
 
 app-install: unfuck-docker ## Installl the application within the docker-compose environment
 	docker exec dockercompose_magento_1 \
-	    php /var/www/html/bin/magento setup:install \
-		--db-host="db" \
-		--db-name="magento" \
-		--db-user="magento" \
-		--db-password="thisisthemagentopassword" \
-		--db-prefix="" \
-		--admin-user="m2onk8s" \
-		--admin-password="m2onk8s" \
-		--admin-email="devnull@m2onk8s.hackery.littleman.local" \
-		--admin-firstname="m2onk8s" \
-		--admin-lastname="developer" \
-		--base-url="http://m2onk8s.hackery.littleman.local" \
-		--language="en_GB" \
-		--timezone="GMT"
+	    su --shell=/bin/bash www-data --command=' \
+		php /var/www/html/bin/magento setup:install \
+		    --db-host="db" \
+		    --db-name="magento" \
+		    --db-user="magento" \
+		    --db-password="thisisthemagentopassword" \
+		    --db-prefix="" \
+		    --admin-user="m2onk8s" \
+		    --admin-password="m2onk8s" \
+		    --admin-email="devnull@littleman.co" \
+		    --admin-firstname="m2onk8s" \
+		    --admin-lastname="developer" \
+		    --base-url="http://m2onk8s.hackery.littleman.local" \
+		    --language="en_GB" \
+		    --timezone="UTC"'
 
 app-enable-modules: ## Something I have to do for some reason
 	cd app && \
@@ -91,4 +92,4 @@ fix-perms: ## ${TYPE} Chanages the permissions to they're owned by the appropria
 	sudo chown -R $${ID}:$${ID} app
 
 clean: ## Cleans all the caches and things from the repo
-	- rm -rf app/var/cache/*
+	- rm -rf app/var/*

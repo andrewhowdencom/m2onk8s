@@ -1,7 +1,8 @@
 {
-    "name": "littlemanco/m2onk8s",
-    "description": "An experiment to get m2 up and running on Kubernetes",
+    "name": "magento/project-community-edition",
+    "description": "eCommerce Platform for Growth (Community Edition)",
     "type": "project",
+    "version": "2.1.7",
     "license": [
         "OSL-3.0",
         "AFL-3.0"
