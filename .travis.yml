@@ -14,13 +14,5 @@ before_install:
 install:
   - "make app-dependencies app-install app-static"
 
-before_script: [""]
-
-script: [""]
-
-after_success: [""]
-
 before_deploy:
   - "NAME=magento make container-build container-push"
-
-deploy: [""]
