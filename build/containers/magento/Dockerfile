@@ -13,5 +13,5 @@ ADD app /var/www/
 RUN chown -R www-data:www-data /var/www
 
 ENV SERVER_NAME "m2onk8s.hackery.littleman.co"
-ENV SERVER_ADMIN "devnull@andrewhowden.com"
-ENV DOCUMENT_ROOT "/var/www/public/"
+ENV SERVER_ADMIN "devnull@littleman.co"
+ENV DOCUMENT_ROOT "/var/www/pub/"
