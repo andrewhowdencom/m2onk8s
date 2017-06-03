@@ -4,6 +4,8 @@
 sudo: "required"
 
 language: "php"
+php:
+  - "7.0"
 
 services:
   - "docker"
@@ -14,5 +16,8 @@ before_install:
 install:
   - "make app-dependencies app-install app-static"
 
-before_deploy:
-  - "NAME=magento make container-build container-push"
+deploy:
+  - provider: "script"
+    script: "NAME=magento make container-build container-push"
+    "on":
+      tags: true
