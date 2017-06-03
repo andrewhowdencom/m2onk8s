@@ -1,0 +1,26 @@
+---
+# Enable sudo. Required for Docker. For details, see the following link
+# https://docs.travis-ci.com/user/docker/
+sudo: "required"
+
+language: "php"
+
+services:
+  - "docker"
+
+before_install:
+  - "make compose-up"
+
+install:
+  - "make app-dependencies app-install app-static"
+
+before_script: [""]
+
+script: [""]
+
+after_success: [""]
+
+before_deploy:
+  - "NAME=magento make container-build container-push"
+
+deploy: [""]

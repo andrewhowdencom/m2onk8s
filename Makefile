@@ -34,13 +34,16 @@ help: ## Show this menu
 	@echo -e $(ANSI_TITLE)Commands:$(ANSI_OFF)
 	@grep -E '^[a-zA-Z_-%]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "    \033[32m%-30s\033[0m %s\n", $$1, $$2}'
 
-build-container: ## ${NAME} | Builds a container. The only container is webserver, so you probably want "$  NAME=magento make build-container"
-	docker build --tag quay.io/littlemanco/magento2:$(APP_VERSION) \
+compose-up: ## Brings up the docker compose environment
+	cd deploy/docker-compose && \
+	    docker-compose up
+
+container-build: ## ${NAME} | Builds a container. The only container is webserver, so you probably want "$  NAME=magento make build-container"
+	docker build --tag quay.io/littlemanco/${NAME}:$(APP_VERSION) \
 	    --file build/containers/${NAME}/Dockerfile \
 	    .
-
-push-container: ## Pushes the container to prod.
-	gcloud docker -- push quay.io/littlemanco/magento2:$(APP_VERSION)
+container-push: ## Pushes the container to prod.
+	docker -- push quay.io/littlemanco/${NAME}:$(APP_VERSION)
 
 app-dependencies: ## Installs the application dependencies (so, the application itself)
 	cd app && \
