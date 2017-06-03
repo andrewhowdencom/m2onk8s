@@ -72,7 +72,7 @@ app-install: unfuck-docker ## Installl the application within the docker-compose
 		    --base-url="http://m2onk8s.hackery.littleman.local" \
 		    --language="en_GB" \
 		    --timezone="UTC" && \
-		chmod 'u=rx,g=,o=' /var/www/html/app/etc/
+		chmod "u=rx,g=,o=" /var/www/html/app/etc/'
 
 app-enable-modules: ## Something I have to do for some reason
 	cd app && \
