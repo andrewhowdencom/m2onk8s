@@ -3,6 +3,11 @@
 # https://docs.travis-ci.com/user/docker/
 sudo: "required"
 
+# Use a specific composer home, as composer will not show which home it's
+# currently using and this build script is operating in multiple environments.
+env:
+  COMPOSER_HOME: "/tmp/composer"
+
 language: "php"
 php:
   - "7.0"
@@ -11,6 +16,7 @@ services:
   - "docker"
 
 before_install:
+  - "mkdir -p ${COMPOSER_HOME}"
   - "sudo build/ci/install-git-crypt.sh"
   - 'printf "%s" ${CI_BASE64_GPG_PRIVATE_KEY} | base64 -d | gpg --import'
   - "make vcs-auth-setup"

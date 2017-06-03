@@ -36,7 +36,7 @@ help: ## Show this menu
 
 vcs-auth-setup: ## Unlocks the resources in version control, moves authentication files to their expected location
 	git-crypt unlock
-	cp auth.json ~/.composer/
+	cp auth.json $${COMPOSER_HOME}
 
 compose-up: ## Brings up the docker compose environment
 	cd deploy/docker-compose && \
