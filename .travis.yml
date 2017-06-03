@@ -31,6 +31,8 @@ script:
 
 deploy:
   - provider: "script"
+    # Normally, travis will attempt to stash all files before it compiles and deploys container
+    skip_cleanup: true
     script: "NAME=magento make container-build container-push"
     "on":
       tags: true
