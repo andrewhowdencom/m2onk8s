@@ -1,0 +1,30 @@
+---
+kind: "Service"
+apiVersion: "v1"
+metadata:
+  annotations:
+    {{ if eq .Values.service.type "LoadBalancer" }}service.beta.kubernetes.io/external-traffic: "OnlyLocal"{{ end }}
+  labels:
+    app: {{ template "magento.fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    heritage: "{{ .Release.Service }}"
+    release: "{{ .Release.Name }}"
+  name: {{ template "magento.fullname" . }}
+spec:
+  selector:
+    app: {{ template "magento.fullname" . }}
+    release: "{{ .Release.Name }}"
+  ports:
+    - protocol: "TCP"
+      name: "http"
+      port: 80
+  type: {{ default "ClusterIP" .Values.service.type }}
+  {{ if eq .Values.service.type "LoadBalancer" -}}
+  {{ if .Values.service.loadBalancer.publicIp -}}
+  loadBalancerIP: {{ .Values.service.loadBalancer.publicIp }}
+  {{ if .Values.service.loadBalancer.allowedIps -}}
+  loadBalancerSourceRanges:
+{{ .Values.service.loadBalancer.allowedIps | toYaml | indent 4 }}
+  {{ end -}}
+  {{ end -}}
+  {{ end -}}
