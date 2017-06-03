@@ -23,7 +23,7 @@ before_install:
   - "make compose-up"
 
 install:
-  - "make app-dependencies app-install app-static"
+  - "make app-dependencies app-install"
 
 deploy:
   - provider: "script"
