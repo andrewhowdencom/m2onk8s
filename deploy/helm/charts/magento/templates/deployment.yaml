@@ -3,16 +3,16 @@ apiVersion: "extensions/v1beta1"
 kind: "Deployment"
 metadata:
   labels:
-    app: {{ template "__CHART__.fullname" . }}
+    app: {{ template "magento.fullname" . }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     heritage: "{{ .Release.Service }}"
     release: "{{ .Release.Name }}"
-  name: {{ template "__CHART__.fullname" . }}
+  name: {{ template "magento.fullname" . }}
 spec:
   replicas: {{ default 2 .Values.deployment.replicas }}
   selector:
     matchLabels:
-      app: {{ template "__CHART__.fullname" . }}
+      app: {{ template "magento.fullname" . }}
       release: "{{ .Release.Name }}"
   strategy:
     rollingUpdate:
@@ -42,7 +42,7 @@ spec:
         # checksum/config: {{ include (print $.Chart.Name "/templates/secret.yaml") . | sha256sum }}
         # checksum/config: {{ include (print $.Chart.Name "/templates/configmap.yaml") . | sha256sum }}
       labels:
-        app: {{ template "__CHART__.fullname" . }}
+        app: {{ template "magento.fullname" . }}
         release: "{{ .Release.Name }}"
     spec:
       ## Volumes are how Kubernetes expresses either networked storage or other metadata in the filesystem. There are
@@ -67,7 +67,7 @@ spec:
       ##
       #   - name: "__VOLUME_NAME__"
       #     persistentVolumeClaim:
-      #       claimName: {{ template "__CHART__.pvcName" . }}
+      #       claimName: {{ template "magento.pvcName" . }}
       ##
       ## CONFIGMAP
       ##
@@ -294,7 +294,7 @@ spec:
       ## - Never
       ##
       ## For more information, see http://kubernetes.io/docs/user-guide/pod-states/#restartpolicy
-      restartPolicy: "__RESTART_POLICY__"
+      restartPolicy: "Always"
       securityContext:
         ## Volumes which support ownership management are modified to be owned and writable by the GID specified in
         ## fsGroup. See the Ownership Management design document for more details.

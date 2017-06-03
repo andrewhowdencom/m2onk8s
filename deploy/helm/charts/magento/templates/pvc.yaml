@@ -3,7 +3,7 @@
 kind: "PersistentVolumeClaim"
 apiVersion: "v1"
 metadata:
-  name: {{ template "__CHART__.fullname" . }}
+  name: {{ template "magento.fullname" . }}
   annotations:
   {{- if .Values.persistence.StorageClass }}
     volume.beta.kubernetes.io/storage-class: {{ .Values.persistence.StorageClass | quote }}

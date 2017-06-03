@@ -6,8 +6,8 @@
 pod:
   __CONTAINER_NAME__:
     ## The image to use with the resource
-    ## Ref: https://__CONTAINER_IMAGE__
-    image: __CONTAINER_IMAGE__
+    ## Ref: https://quay.io/littlemanco/magento:latest
+    image: quay.io/littlemanco/magento:latest
     ## Host networking requested for this pod. Use the host’s network namespace. If this option is set, the ports that
     ## will be used must be specified.
     ## Ref: https://kubernetes.io/docs/api-reference/v1/definitions/#_v1_podspec
