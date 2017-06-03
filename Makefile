@@ -48,6 +48,23 @@ app-dependencies: ## Installs the application dependencies (so, the application 
 		--ignore-platform-reqs \
 		--no-dev
 
+app-install: unfuck-docker ## Installl the application within the docker-compose environment
+	docker exec dockercompose_magento_1 \
+	    php /var/www/html/bin/magento setup:install \
+		--db-host="db" \
+		--db-name="magento" \
+		--db-user="magento" \
+		--db-password="thisisthemagentopassword" \
+		--db-prefix="" \
+		--admin-user="m2onk8s" \
+		--admin-password="m2onk8s" \
+		--admin-email="devnull@m2onk8s.hackery.littleman.local" \
+		--admin-firstname="m2onk8s" \
+		--admin-lastname="developer" \
+		--base-url="http://m2onk8s.hackery.littleman.local" \
+		--language="en_GB" \
+		--timezone="GMT"
+
 app-enable-modules: ## Something I have to do for some reason
 	cd app && \
 	    php bin/magento module:enable -all
