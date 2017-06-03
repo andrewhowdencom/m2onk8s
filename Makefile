@@ -1,6 +1,6 @@
 # Task runner
 
-.PHONY: help build
+.PHONY: help build deploy
 
 .DEFAULT_GOAL := help
 
@@ -85,6 +85,14 @@ app-di: ## Builds the Magento DI configuration
 app-static: ## Builds the themes
 	docker run -v $$(pwd):/tmp/ quay.io/littlemanco/apache-php:7.0.19-1_3 \
 	    php /tmp/app/bin/magento setup:static-content:deploy
+
+deploy: ## ${VERSION:-latest} | Releases the helm deployment
+	[ ! -z "$${VERSION}" ] && \
+	    export VERSION || \
+	    export VERSION="$(APP_VERSION)"; \
+	helm upgrade --install \
+	    --set="image=quay.io/littlemanco/magento:$${VERSION}" \
+	    m2onk8s deploy/helm/charts/magento	
 
 unfuck-docker: ## Makes the required filesystem / permissions changes to allow executing in docker-compose
 	sudo chown -R 33:33 \
