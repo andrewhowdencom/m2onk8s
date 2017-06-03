@@ -42,7 +42,7 @@ compose-up: ## Brings up the docker compose environment
 	cd deploy/docker-compose && \
 	    docker-compose up -d
 
-container-build: fix-perms ## ${NAME} | Builds a container. The only container is webserver, so you probably want "$  NAME=magento make build-container"
+container-build: container-prepare ## ${NAME} | Builds a container. The only container is webserver, so you probably want "$  NAME=magento make build-container"
 	docker build --tag quay.io/littlemanco/${NAME}:$(APP_VERSION) \
 	    --file build/containers/${NAME}/Dockerfile \
 	    .
@@ -102,11 +102,9 @@ unfuck-docker: ## Makes the required filesystem / permissions changes to allow e
 	    app/pub/media \
 	    app/pub/static
 
-fix-perms: ## ${TYPE} Chanages the permissions to they're owned by the appropriate user
-	[ "${TYPE}" == "prod" ] && \
-	    export ID="33" ||  \
-	    export ID="$$(id -u)"; \
-	sudo chown -R $${ID}:$${ID} app
+container-prepare: ## Prepares the filesystem for packing into a container
+	sudo chown -R $$(id -u):$$(id -u) app
+	sudo rm app/app/etc/env.php # Remove env.php as it will be mounted into the container at runtime
 
 clean: ## Cleans all the caches and things from the repo
 	- rm -rf app/var/*
