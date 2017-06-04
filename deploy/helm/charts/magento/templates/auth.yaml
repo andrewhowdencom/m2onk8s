@@ -1,0 +1,50 @@
+---
+# The Magento install job will execute the initial Magento installation, and push the generated .env file to a secret
+# so it can be consumed by the runtime nodes.
+apiVersion: "rbac.authorization.k8s.io/v1beta1"
+kind: "Role"
+metadata:
+  name: "magento-installer"
+  labels:
+    app: {{ template "magento.fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    heritage: "{{ .Release.Service }}"
+    release: "{{ .Release.Name }}"
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - "secrets"
+    verbs:
+      - "create"
+      - "update"
+      - "patch"
+---
+apiVersion: "v1"
+kind: "ServiceAccount"
+metadata:
+  name: "magento-installer"
+  namespace: "{{ .Release.Namespace }}"
+  labels:
+    app: {{ template "magento.fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    heritage: "{{ .Release.Service }}"
+    release: "{{ .Release.Name }}"
+---
+apiVersion: "rbac.authorization.k8s.io/v1beta1"
+kind: "RoleBinding"
+metadata:
+  name: {{ template "magento.fullname" . }}
+  labels:
+    app: {{ template "magento.fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    heritage: "{{ .Release.Service }}"
+    release: "{{ .Release.Name }}"
+roleRef:
+  apiGroup: "rbac.authorization.k8s.io"
+  kind: "Role"
+  name: "magento-installer"
+subjects:
+  - kind: "ServiceAccount"
+    name: "magento-installer"
+    namespace: "{{ .Release.Namespace }}"
