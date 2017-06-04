@@ -51,8 +51,10 @@ php "${APP_ROOT}/bin/magento" setup:install \
 
 # Push the secret to Kubernetes
 # Todo: Need to determine somehow if this fails. Unsure at the minute just how to do this.
+set -x
+
 curl --insecure \
-  --verbose \
+  --cacert "/run/secrets/kubernetes.io/serviceaccount/ca.crt" \
   --fail \
   --data @- \
   --request "POST" \
@@ -66,8 +68,7 @@ curl --insecure \
   "kind": "Secret",
   "apiVersion": "v1",
   "metadata": {
-    "name": "test-secret",
-    "creationTimestamp": null
+    "name": "magento-env",
   },
   "data": {
   "env.php": "$(cat ${APP_ROOT}/app/etc/env.php | base64 -w 0)"
