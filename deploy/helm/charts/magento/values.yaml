@@ -4,8 +4,18 @@
 # nameOverride:
 
 magento:
+  ## The URL at which the store will be accessed
+  # baseUrl:
   admin:
+    ## The "root" account for the store admin
     user: "admin"
+    ## The password for the above "root" account
+    ## Default: 32 character random string
+    # password:
+
+mysql:
+  ## The user that will access the MySQL database
+  mysqlUser: "magento"
 
 pod:
   magento:

@@ -92,7 +92,7 @@ deploy: ## ${VERSION:-latest} | Releases the helm deployment
 	    export VERSION="$(APP_VERSION)"; \
 	helm upgrade --install \
 	    --namespace="m2onk8s" \
-	    --set="pod.magento.image=quay.io/littlemanco/magento:$${VERSION}" \
+	    --set="pod.magento.image=quay.io/littlemanco/magento:$${VERSION},magento.baseUrl=http://m2onk8s.hackery.littleman.co" \
 	    m2onk8s deploy/helm/charts/magento	
 
 unfuck-docker: ## Makes the required filesystem / permissions changes to allow executing in docker-compose

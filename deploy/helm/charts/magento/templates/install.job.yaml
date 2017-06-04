@@ -22,7 +22,7 @@ spec:
     spec:
       restartPolicy: Never
       containers:
-        - name: post-install-job
+        - name: install-magento
           env:
             - name: "DATABASE_HOST"
               value: {{ template "mysql.fullname" . }}
@@ -37,6 +37,8 @@ spec:
                 secretKeyRef:
                   name: {{ template "magento.fullname" . }}
                   key: "adminPassword"
+            - name: "BASE_URL"
+              value: {{ required "You need to specify a base URL" .Values.magento.baseUrl }}
             - name: "DATABASE_PASSWORD"
               valueFrom:
                 secretKeyRef:
