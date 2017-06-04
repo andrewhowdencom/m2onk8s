@@ -29,9 +29,9 @@ fi
 
 # Give the app/etc/ folder write permissions. This is required for Magento to add the necessary configuration to this
 # location.
-chmod 'u=rwx,g=,o' "${APP_ROOT}/app/etc/"
+chmod 'u=rwx,g=,o=' "${APP_ROOT}/app/etc/"
 
-php '${APP_ROOT}/bin/magento' setup:install \
+php "${APP_ROOT}/bin/magento" setup:install \
     --db-host="${DATABASE_HOST}" \
     --db-name="${DATABASE_NAME}" \
     --db-user="${DATABASE_USER}" \
