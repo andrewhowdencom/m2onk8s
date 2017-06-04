@@ -1,0 +1,11 @@
+# Docker Compose
+
+This environment is designed for spinning up Magento 2 locally and during the build, such that either
+
+- The developer can work on it
+- The build process can compile
+
+It will bring up an environment quite similar to the production environment (there are some deviations in the networking).
+
+The Makefile at the repository root is the only way I puppet this. If you are curious, raise an issue and I will improve
+the docs.
