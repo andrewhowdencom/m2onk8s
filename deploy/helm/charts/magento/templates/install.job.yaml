@@ -20,7 +20,9 @@ spec:
         release: {{ .Release.Name | quote }}
         chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     spec:
-      restartPolicy: Never
+      # There's a race condition in which, if the database is not ready by the time the job runs, the job will just
+      # timeout. In that case, we should just restart it.
+      restartPolicy: OnFailure
       containers:
         - name: install-magento
           env:
