@@ -46,6 +46,27 @@ php "${APP_ROOT}/bin/magento" setup:install \
     --language="${LOCALE_LANGUAGE}" \
     --timezone="${LOCALE_TIMEZONE}"
 
-# Todo: Cat the .env file, and turn it into a secret.
-# See https://stackoverflow.com/questions/30690186/how-do-i-access-the-kubernetes-api-from-within-a-pod-container
-cat "${APP_ROOT}/app/env.php"
+# Push the secret to Kubernetes
+# Todo: Need to determine somehow if this fails. Unsure at the minute just how to do this.
+curl --insecure \
+  --verbose \
+  --fail \
+  --data @- \
+  --request "POST" \
+  --header "Content-Type: application/json" \
+  --header "User-Agent: magento-installer ($(hostname))" \
+  --header "Accept: application/json, */*" \
+  "https://${KUBERNETES_SERVICE_HOST}:${KUBERNETES_PORT_443_TCP_PORT}/api/v1/namespaces/${NAMESPACE}/secret" \
+  <<EOF
+{
+  "kind": "Secret",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "test-secret",
+    "creationTimestamp": null
+  },
+  "data": {
+  "env.php": "$(cat ${APP_ROOT}/app/etc/env.php | base64 -w 0)"
+  }
+}
+EOF
