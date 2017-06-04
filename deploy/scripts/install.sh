@@ -53,22 +53,20 @@ php "${APP_ROOT}/bin/magento" setup:install \
 # Todo: Need to determine somehow if this fails. Unsure at the minute just how to do this.
 set -x
 
-curl --insecure \
-  --cacert "/run/secrets/kubernetes.io/serviceaccount/ca.crt" \
+curl --cacert "/run/secrets/kubernetes.io/serviceaccount/ca.crt" \
   --fail \
   --data @- \
-  --request "POST" \
   --header "Content-Type: application/json" \
   --header "User-Agent: magento-installer ($(hostname))" \
   --header "Accept: application/json, */*" \
   --header "Authorization: Bearer ${KUBERNETES_TOKEN}" \
-  "https://${KUBERNETES_SERVICE_HOST}:${KUBERNETES_PORT_443_TCP_PORT}/api/v1/namespaces/${NAMESPACE}/secret" \
+  "https://${KUBERNETES_SERVICE_HOST}:${KUBERNETES_PORT_443_TCP_PORT}/api/v1/namespaces/${NAMESPACE}/secrets" \
   <<EOF
 {
   "kind": "Secret",
   "apiVersion": "v1",
   "metadata": {
-    "name": "magento-env",
+    "name": "magento-env"
   },
   "data": {
   "env.php": "$(cat ${APP_ROOT}/app/etc/env.php | base64 -w 0)"
