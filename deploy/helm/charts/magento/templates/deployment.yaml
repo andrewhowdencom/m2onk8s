@@ -71,7 +71,7 @@ spec:
           volumeMounts:
             - name: "magento-env"
               readOnly: true
-              mountPath: "/var/www/app/etc/"
+              mountPath: "/var/www/app/etc/env.php"
               subPath: "env.php"
           ## There are three types or readiness probes:
           ##
