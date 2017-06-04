@@ -60,6 +60,13 @@ spec:
           #       name: __SECRET_NAME__
           #       key: __KEY_USED_IN_SECRET_NAME__
           #
+          volumes:
+            - name: "magento-env"
+              secret:
+                secretName: "{{ .Release.Name }}-magento-env"
+                items:
+                  - key: "env.php"
+                    path: "env.php"
           image: {{ .Values.pod.magento.image | quote }}
           resources:
 {{ toYaml .Values.resources | indent 12 }}
@@ -67,13 +74,11 @@ spec:
             - containerPort: 80
               protocol: "TCP"
               name: "http"
-          # volumeMounts:
-          #   - name: "webserver-etc-conf-d"
-          #     readOnly: true
-          #     mountPath: "/etc/webserver/conf.d"
-          #   - name: "webserver-data
-          #     readOnly: false
-          #     mountPath: "/data"
+          volumeMounts:
+            - name: "magento-env"
+              readOnly: true
+              mountPath: "/var/www/app/etc/"
+              subPath: "env.php"
           ## There are three types or readiness probes:
           ##
           ## More generally, a liveness probe is used to determine whether the application is "healthy" and should

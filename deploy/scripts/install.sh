@@ -66,7 +66,7 @@ curl --cacert "/run/secrets/kubernetes.io/serviceaccount/ca.crt" \
   "kind": "Secret",
   "apiVersion": "v1",
   "metadata": {
-    "name": "magento-env"
+    "name": "${HELM_RELEASE}-magento-env"
   },
   "data": {
   "env.php": "$(cat ${APP_ROOT}/app/etc/env.php | base64 -w 0)"
