@@ -19,6 +19,10 @@ set up only to be used as a demo.
 
 ### Packaging
 
+Everything is run as docker containers. The webserver work is based around littlemanco/apache-php (which I am finding more excuses to spend time on), and the rest is just upstream stuff.
+
+### Release Management
+
 All the Kubernetes resources are managed as a helm chart. Principally, this let's us use additional hooks around the
 lifecycle of the application such that we can have a single proceedural install event, as well as running jobs that perform DB migrations after ever release. (I'm presuming that the migrations are idempotent)
 
