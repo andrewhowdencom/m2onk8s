@@ -33,6 +33,10 @@ I'll fix these slowly, depending on how my enthousasm holds up (it's running out
 - No state. 
 - No cron.
 
+### Warnings
+
+The install creates a secret, called "${RELEASE-NAME}-magento-env". This isn't managed by helm -- if you delete stuff, you'll have to delete it manually.
+
 ## Versioning Strategy
 
 The repository follows the follow versioning strategy:
