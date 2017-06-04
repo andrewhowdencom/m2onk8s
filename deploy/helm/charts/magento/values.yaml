@@ -3,6 +3,10 @@
 ## Default: use the chart name
 # nameOverride:
 
+magento:
+  admin:
+    user: "admin"
+
 pod:
   magento:
     ## The image to use with the resource

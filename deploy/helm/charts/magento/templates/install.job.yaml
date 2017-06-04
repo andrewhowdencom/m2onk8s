@@ -2,11 +2,11 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: "{{.Release.Name}}"
+  name: "{{ .Release.Name }}"
   labels:
-    heritage: {{.Release.Service | quote }}
-    release: {{.Release.Name | quote }}
-    chart: "{{.Chart.Name}}-{{.Chart.Version}}"
+    heritage: {{ .Release.Service | quote }}
+    release: {{ .Release.Name | quote }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
   annotations:
     # This is what defines this resource as a hook. Without this line, the
     # job is considered part of the release.
@@ -14,15 +14,34 @@ metadata:
 spec:
   template:
     metadata:
-      name: "{{.Release.Name}}"
+      name: "{{ .Release.Name }}"
       labels:
-        heritage: {{.Release.Service | quote }}
-        release: {{.Release.Name | quote }}
-        chart: "{{.Chart.Name}}-{{.Chart.Version}}"
+        heritage: {{ .Release.Service | quote }}
+        release: {{ .Release.Name | quote }}
+        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     spec:
       restartPolicy: Never
       containers:
         - name: post-install-job
-          image: "{{ .Values.pod.magento.image }}"
+          env:
+            - name: "DATABASE_HOST"
+              value: {{ template "mysql.fullname" . }}
+            - name: "DATABASE_NAME"
+              value: {{ default "magento" .Values.mysql.mysqlDatabase | quote }}
+            - name: "DATABASE_USER"
+              value: {{ .Values.mysql.mysqlUser | quote }}
+            - name: "ADMIN_USER"
+              value: {{ default "admin" .Values.magento.admin.user }}
+            - name: "ADMIN_PASSWORD"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "magento.fullname" . }}
+                  key: "adminPassword"
+            - name: "DATABASE_PASSWORD"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "mysql.fullname" . }}
+                  key: mysql-password
+          image: {{ .Values.pod.magento.image | quote }}
           command:
             - "install.sh"

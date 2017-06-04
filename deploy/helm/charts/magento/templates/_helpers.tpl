@@ -16,13 +16,9 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this
 {{end}}
 
 {{/*
-Provide a pre-defined claim or a claim based on the Release
+Create a default fully qualified app name for the database
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 */}}
-{{- define "magento.pvcName" -}}
-{{- if .Values.persistence.existingClaim }}
-{{- .Values.persistence.existingClaim }}
-{{- else -}}
-{{- template "magento.fullname" . }}
+{{- define "mysql.fullname" -}}
+{{- printf "%s-%s" .Release.Name "mysql" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
-{{- end -}}
-
