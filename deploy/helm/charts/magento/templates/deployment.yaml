@@ -34,12 +34,13 @@ spec:
         app: {{ template "magento.fullname" . }}
         release: "{{ .Release.Name }}"
     spec:
-      ##
-      ## SECRET
-      ##
-      #   - name: "m2onk8s"
-      #     secret:
-      #       secretName: "__SECRET_NAME__"
+      volumes:
+        - name: "magento-env"
+          secret:
+            secretName: "{{ .Release.Name }}-magento-env"
+            items:
+              - key: "env.php"
+                path: "env.php"
       containers:
         - name: magento
           ## Environment variables can be populated in a number of ways, including secrets, or just string values. Below
@@ -60,13 +61,6 @@ spec:
           #       name: __SECRET_NAME__
           #       key: __KEY_USED_IN_SECRET_NAME__
           #
-          volumes:
-            - name: "magento-env"
-              secret:
-                secretName: "{{ .Release.Name }}-magento-env"
-                items:
-                  - key: "env.php"
-                    path: "env.php"
           image: {{ .Values.pod.magento.image | quote }}
           resources:
 {{ toYaml .Values.resources | indent 12 }}
