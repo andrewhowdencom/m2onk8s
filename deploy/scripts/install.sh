@@ -21,6 +21,9 @@ ADMIN_LASTNAME="${ADMIN_LASTNAME:-user}"
 LOCALE_LANGUAGE="${LOCALE_LANGUAGE:-en_GB}"
 LOCALE_TIMEZONE="${LOCALE_TIMEZONE:-UTC}"
 
+# Auth the pod
+KUBERNETES_TOKEN=$(</var/run/secrets/kubernetes.io/serviceaccount/token)
+
 # Check required variables
 if [[ -z "${ADMIN_PASSWORD}" ]] || [[ -z "${DATABASE_PASSWORD}" ]] || [[ -z "${BASE_URL}" ]]; then
    echo "Missing required environment variables."
@@ -56,6 +59,7 @@ curl --insecure \
   --header "Content-Type: application/json" \
   --header "User-Agent: magento-installer ($(hostname))" \
   --header "Accept: application/json, */*" \
+  --header "Authorization: Bearer ${KUBERNETES_TOKEN}" \
   "https://${KUBERNETES_SERVICE_HOST}:${KUBERNETES_PORT_443_TCP_PORT}/api/v1/namespaces/${NAMESPACE}/secret" \
   <<EOF
 {
