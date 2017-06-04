@@ -16,7 +16,8 @@ magento:
 mysql:
   ## The user that will access the MySQL database
   mysqlUser: "magento"
-
+  ## The dataabase that Magento will used. Will be created.
+  mysqlDatabase: "magento"
 pod:
   magento:
     ## The image to use with the resource
