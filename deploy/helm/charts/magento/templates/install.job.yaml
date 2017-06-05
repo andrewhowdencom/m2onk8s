@@ -68,7 +68,7 @@ spec:
             - "su"
             - "--shell=/bin/bash"
             - "www-data"
-            - "install.sh"
+            - "/opt/m2onk8s/bin/install.sh"
       securityContext:
         fsGroup: 33
         supplementalGroups:
