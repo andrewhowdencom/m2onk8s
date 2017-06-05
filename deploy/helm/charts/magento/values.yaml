@@ -18,6 +18,12 @@ mysql:
   mysqlUser: "magento"
   ## The dataabase that Magento will used. Will be created.
   mysqlDatabase: "magento"
+
+redis:
+  # Enable the Prometheus exporter deployed with the redis chart
+  metrics:
+    enabled: true
+
 pod:
   magento:
     ## The image to use with the resource

@@ -10,7 +10,7 @@ $sHelmRelease = getenv('HELM_RELEASE');
 $sEnvPath     = APP_DIR . "/app/etc/env.php";
 
 // This populates the variable aEnvironmentConfiguration with the environment configuration from the file, after
-// which we can manpulate it.
+// which we can manipulate it.
 $aEnvironmentConfiguration = require_once($sEnvPath);
 
 // Update the session configuration such that it will query the redis host
@@ -20,7 +20,7 @@ $aEnvironmentConfiguration['session'] = [
     'redis' => [
         'host'                  => "$sHelmRelease-redis",
         'port'                  => '6379',
-        'password'              => '',
+        'password'              => getenv('REDIS_PASSWORD'),
         'timeout'               => '1',
         'persistent_identifier' => '',
         'database'              => '2',
@@ -49,7 +49,8 @@ $aEnvironmentConfiguration['cache'] = array(
                         [
                             'server'   => "$sHelmRelease-redis",
                             'database' => '0',
-                            'port'     => '6379'
+                            'port'     => '6379',
+                            'password' => getenv('REDIS_PASSWORD')
                         ],
                 ],
             'page_cache' =>
@@ -60,7 +61,8 @@ $aEnvironmentConfiguration['cache'] = array(
                             'server'        => "$sHelmRelease-redis",
                             'port'          => '6379',
                             'database'      => '1',
-                            'compress_data' => '0'
+                            'compress_data' => '0',
+                            'password'      => getenv('REDIS_PASSWORD')
                         ]
                 ]
         ]

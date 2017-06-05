@@ -56,7 +56,12 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: {{ template "mysql.fullname" . }}
-                  key: mysql-password
+                  key: "mysql-password"
+            - name: "REDIS_PASSWORD"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "redis.fullname" . }}
+                  key: "redis-password"
             - name: "NAMESPACE"
               valueFrom:
                 fieldRef:
