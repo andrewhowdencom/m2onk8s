@@ -49,10 +49,12 @@ php "${APP_ROOT}/bin/magento" setup:install \
     --language="${LOCALE_LANGUAGE}" \
     --timezone="${LOCALE_TIMEZONE}"
 
-# Push the secret to Kubernetes
-# Todo: Need to determine somehow if this fails. Unsure at the minute just how to do this.
-set -x
+# Modify the configuration
+# This reads the env.php, adds the configuration specific to this environment and writes it back in place so it can be
+# read by the cURL command.
+php /opt/m2onk8s/bin/update-configuration.php
 
+# Push the secret to Kubernetes
 curl --cacert "/run/secrets/kubernetes.io/serviceaccount/ca.crt" \
   --fail \
   --data @- \

@@ -7,7 +7,7 @@
 FROM quay.io/littlemanco/apache-php:7.0.19-1_3
 
 ADD app /var/www/
-ADD deploy/scripts/install.sh /usr/local/bin/install.sh
+ADD build/containers/magento/opt/m2onk8s /opt/m2onk8s
 
 # Chown the added files so they're owned by the correct user. 
 # Note: Previously, this had problems with Dockers layered FS. Dunno whether it works yet.
