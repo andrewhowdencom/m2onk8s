@@ -60,7 +60,7 @@ spec:
               subPath: "env.php"
             - name: "magento-pv"
               mountPath: "/var/www/pub/media"
-              subPath: "/media"
+              subPath: "media"
           ## There are three types or readiness probes:
           ##
           ## More generally, a liveness probe is used to determine whether the application is "healthy" and should
