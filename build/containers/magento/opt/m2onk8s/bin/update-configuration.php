@@ -68,4 +68,4 @@ $aEnvironmentConfiguration['cache'] = array(
 
 $sExportedConfiguration = var_export($aEnvironmentConfiguration, true);
 
-file_put_contents($sEnvPath, "return $sExportedConfiguration");
+file_put_contents($sEnvPath, "<?php return $sExportedConfiguration;");
