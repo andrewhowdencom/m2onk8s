@@ -41,7 +41,7 @@ spec:
             items:
               - key: "env.php"
                 path: "env.php"
-	- name: "magento-pv"
+        - name: "magento-pv"
           persistentVolumeClaim:
             claimName: {{ template "magento.fullname" . }}
       containers:
@@ -58,9 +58,9 @@ spec:
               readOnly: true
               mountPath: "/var/www/app/etc/env.php"
               subPath: "env.php"
-	    - name: "magento-pv"
+            - name: "magento-pv"
               mountPath: "/var/www/pub/media"
-	      subPath: "/media"
+              subPath: "/media"
           ## There are three types or readiness probes:
           ##
           ## More generally, a liveness probe is used to determine whether the application is "healthy" and should
