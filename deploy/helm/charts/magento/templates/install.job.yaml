@@ -69,3 +69,7 @@ spec:
             - "--shell=/bin/bash"
             - "www-data"
             - "install.sh"
+      securityContext:
+        fsGroup: 33
+        supplementalGroups:
+          - 33
